@@ -12,3 +12,13 @@ repositories {
 dependencies {
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
 }
+
+task fullBuild(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.burntrouter.Launcher'
+    }
+
+    baseName = project.name + '-build'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
